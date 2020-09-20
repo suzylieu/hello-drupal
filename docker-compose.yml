@@ -1,47 +1,45 @@
 version: "3.7"
 
 services:
-    mariadb:
-      image: mariadb:10.5
-      container_name: mariadb
-      restart: unless-stopped
-      env_file: .env
-      volumes:
-        - db-data:/var/lib/mysql
-      networks:
-        - internal
+  mariadb:
+    image: mariadb:10.5
+    container_name: mariadb
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./db-data:/var/lib/mysql
+    networks:
+      - internal
   
-    drupal:
-      image: drupal:8.9-fpm-alpine
-      container_name: drupal
-      depends_on:
-        - mysql
-      restart: unless-stopped
-      networks:
-        - internal
-        - external
-      volumes:
-        - ./drupal-data:/var/www/html
+  drupal:
+    image: drupal:8.9-fpm-alpine
+    container_name: drupal
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+    networks:
+      - internal
+      - external
+    volumes:
+      - ./drupal-data:/var/www/html
   
-    webserver:
-      image: nginx:1.19-alpine
-      container_name: webserver
-      depends_on:
-        - drupal
-      restart: unless-stopped
-      ports:
+  webserver:
+    image: nginx:1.19-alpine
+    container_name: webserver
+    depends_on:
+      - drupal
+    restart: unless-stopped
+    ports:
         - 80:80
-      volumes:
-        - ./drupal-data:/var/www/html
-        - ./nginx-conf:/etc/nginx/conf.d
-      networks:
-        - external
+    volumes:
+      - ./drupal-data:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+    networks:
+      - external
   
-  networks:
-    external:
-      driver: bridge
-    internal:
-      driver: bridge
+networks:
+  external:
+    driver: bridge
+  internal:
+    driver: bridge
   
-
-      
