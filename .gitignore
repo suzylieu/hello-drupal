@@ -1,5 +1,6 @@
 .idea/
 
 .env
-db-data/*
-drupal-data/*
+
+db_data/*
+drupal_data/*

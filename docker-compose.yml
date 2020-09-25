@@ -3,17 +3,15 @@ version: '3.7'
 services:
   drupal:
     image: drupal:latest
-    ports:
-      - 8888:80
     # volumes:
     #   - ./drupal_data:/var/www/html
+    ports:
+      - 8888:80
     restart: always
   mariadb:
     image: mariadb:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     # volumes:
     #   - ./db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     restart: always
