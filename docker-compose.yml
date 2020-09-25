@@ -1,20 +1,27 @@
 version: '3'
 
 services:
-  drupal:
-    image: drupal:latest
-    # image: drupal:8-apache
-    volumes:
-      - drupal-data:/var/www/html
-    ports:
-      - 8888:80
   mariadb:
     image: mariadb:latest
     volumes:
-      - db-data:/var/lib/mysql
+      - "./db_data:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
-volumes:
-  drupal-data:
-  db-data:  
+  drupal:
+    image: drupal:8
+    # image: drupal:8-apache
+    volumes:
+      - "./drupal_data/modules:/var/www/html/modules"
+      - "./drupal_data/profiles:/var/www/html/profiles"
+      - "./drupal_data/sites:/var/www/html/sites"
+      - "./drupal_data/themes:/var/www/html/themes"
+    ports:
+      - 8888:80
+  pma:
+    image: phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+    ports:
+      - 8889:80
+    depends_on:
+      - mariadb
