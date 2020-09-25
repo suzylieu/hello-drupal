@@ -1,1 +1,5 @@
+https://hub.docker.com/_/drupal/
+
+https://hub.docker.com/_/mariadb
+
 $ docker-compose up --force-recreate --remove-orphans

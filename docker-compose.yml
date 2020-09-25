@@ -1,17 +1,20 @@
-version: '3.7'
+version: '3'
 
 services:
   drupal:
     image: drupal:latest
-    # volumes:
-    #   - ./drupal_data:/var/www/html
+    # image: drupal:8-apache
+    volumes:
+      - drupal-data:/var/www/html
     ports:
       - 8888:80
-    restart: always
   mariadb:
     image: mariadb:latest
-    # volumes:
-    #   - ./db_data:/var/lib/mysql
+    volumes:
+      - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    restart: always
+
+volumes:
+  drupal-data:
+  db-data:  
